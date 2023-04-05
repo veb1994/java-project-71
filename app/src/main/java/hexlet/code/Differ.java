@@ -24,8 +24,10 @@ public class Differ {
         }
 
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> fileMap1 = objectMapper.readValue(new File(filepath1), new TypeReference<Map<String, Object>>(){});
-        Map<String, Object> fileMap2 = objectMapper.readValue(new File(filepath2), new TypeReference<Map<String, Object>>(){});
+        Map<String, Object> fileMap1 = objectMapper.readValue(new File(filepath1),
+                new TypeReference<Map<String, Object>>() { });
+        Map<String, Object> fileMap2 = objectMapper.readValue(new File(filepath2),
+                new TypeReference<Map<String, Object>>() { });
 
         List<String> keys = new ArrayList<>();
         keys.addAll(fileMap1.keySet());
