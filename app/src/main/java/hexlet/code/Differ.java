@@ -9,11 +9,12 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Collections;
 
 public class Differ {
     public static String generate(String filepath1, String filepath2, String format) throws Exception {
-        String result = "Both files exist";
+        StringBuilder result;
         Path path1 = Paths.get(filepath1);
         Path path2 = Paths.get(filepath2);
         if (!Files.exists(path1)) {
@@ -24,35 +25,37 @@ public class Differ {
         }
 
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> fileMap1 = objectMapper.readValue(new File(filepath1),
-                new TypeReference<Map<String, Object>>() { });
-        Map<String, Object> fileMap2 = objectMapper.readValue(new File(filepath2),
-                new TypeReference<Map<String, Object>>() { });
-
-        List<String> keys = new ArrayList<>();
-        keys.addAll(fileMap1.keySet());
+        Map<String, Object> fileMap1 = new HashMap<>();
+        Map<String, Object> fileMap2 = new HashMap<>();
+        if (!(Files.readString(path1).equals(""))) {
+            fileMap1 = objectMapper.readValue(new File(filepath1), new TypeReference<>() { });
+        }
+        if (!(Files.readString(path2).equals(""))) {
+            fileMap2 = objectMapper.readValue(new File(filepath2), new TypeReference<>() { });
+        }
+        List<String> keys = new ArrayList<>(fileMap1.keySet());
         for (String key: fileMap2.keySet()) {
             if (!keys.contains(key)) {
                 keys.add(key);
             }
         }
         Collections.sort(keys);
-        result = "{\n";
+        result = new StringBuilder("{\n");
         for (String key: keys) {
-            if (fileMap1.keySet().contains(key) && fileMap2.keySet().contains(key)) {
+            if (fileMap1.containsKey(key) && fileMap2.containsKey(key)) {
                 if (fileMap1.get(key).equals(fileMap2.get(key))) {
-                    result += "    " + key + ": " + fileMap1.get(key) + "\n";
+                    result.append("    ").append(key).append(": ").append(fileMap1.get(key)).append("\n");
                 } else {
-                    result += "  - " + key + ": " + fileMap1.get(key) + "\n";
-                    result += "  + " + key + ": " + fileMap2.get(key) + "\n";
+                    result.append("  - ").append(key).append(": ").append(fileMap1.get(key)).append("\n");
+                    result.append("  + ").append(key).append(": ").append(fileMap2.get(key)).append("\n");
                 }
-            } else if (fileMap1.keySet().contains(key)) {
-                result += "  - " + key + ": " + fileMap1.get(key) + "\n";
+            } else if (fileMap1.containsKey(key)) {
+                result.append("  - ").append(key).append(": ").append(fileMap1.get(key)).append("\n");
             } else {
-                result += "  + " + key + ": " + fileMap2.get(key) + "\n";
+                result.append("  + ").append(key).append(": ").append(fileMap2.get(key)).append("\n");
             }
         }
-        result += "}";
-        return result;
+        result.append("}");
+        return result.toString();
     }
 }
