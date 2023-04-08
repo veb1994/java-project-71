@@ -5,6 +5,6 @@ report:
 	@./gradlew jacocoTestReport
 	
 build:
-	@./gradlew build
+	@./gradlew installDist
 	
 .PHONY: build
