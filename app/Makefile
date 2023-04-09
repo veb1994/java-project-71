@@ -5,6 +5,9 @@ report:
 	@./gradlew jacocoTestReport
 	
 build:
-	@./gradlew build
+	@./gradlew clean build
+
+clean:
+	@./gradlew clean
 	
 .PHONY: build
