@@ -9,5 +9,8 @@ build:
 
 clean:
 	@./gradlew clean
+
+install:
+	@./gradlew installDist
 	
 .PHONY: build
