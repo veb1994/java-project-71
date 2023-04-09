@@ -9,14 +9,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
       - name: Build with Gradle
         run: make -C app build
+      - name: Create jacoco report
+        run: make -C app report
       - name: Make code coverage
         uses: paambaati/codeclimate-action@v3.0.0
         env:
@@ -24,5 +26,5 @@ jobs:
           JACOCO_SOURCE_PATH: src/main/java
         with:
           debug: true
-          coverageCommand: make -C app report
+          #coverageCommand: make -C app report
           coverageLocations: ${{github.workspace}}/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
