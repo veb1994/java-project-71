@@ -17,15 +17,8 @@ jobs:
           distribution: 'temurin'
       - name: Build with Gradle
         run: make -C app build
-      #- name: Create jacoco report
-        #run: make -C app report
-      #- name: Set jacoco.xml path for code climate
-        #run: JACOCO_SOURCE_PATH=src/main/java ./app/cc-test-reporter format-coverage ./build/reports/jacoco/test/jacocoTestReport.xml --input-type jacoco
-      #- name: Upload code climate report
-        #run: ./app/cc-test-reporter upload-coverage -r $CC_TEST_REPORTER_ID
-      
       - name: Make code coverage
-        uses: paambaati/codeclimate-action@v3.0.0
+        uses: paambaati/codeclimate-action@v3.2.0
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
           JACOCO_SOURCE_PATH: app/src/main/java
