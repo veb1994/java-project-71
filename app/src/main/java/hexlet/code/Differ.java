@@ -35,15 +35,8 @@ public class Differ {
     }
 
     public static String compare(Map<String, Object> fileMap1, Map<String, Object> fileMap2) {
-        List<String> keys = new ArrayList<>(fileMap1.keySet());
-        for (String key: fileMap2.keySet()) {
-            if (!keys.contains(key)) {
-                keys.add(key);
-            }
-        }
-        Collections.sort(keys);
         StringBuilder result = new StringBuilder("{\n");
-        for (String key: keys) {
+        for (String key: mergeKeySet(fileMap1, fileMap2)) {
             if (fileMap1.containsKey(key) && fileMap2.containsKey(key)) {
                 if (fileMap1.get(key).equals(fileMap2.get(key))) {
                     result.append("    ").append(key).append(": ").append(fileMap1.get(key)).append("\n");
@@ -59,5 +52,15 @@ public class Differ {
         }
         result.append("}");
         return result.toString();
+    }
+    public static List<String> mergeKeySet(Map<String, Object> fileMap1, Map<String, Object> fileMap2) {
+        List<String> keys = new ArrayList<>(fileMap1.keySet());
+        for (String key: fileMap2.keySet()) {
+            if (!keys.contains(key)) {
+                keys.add(key);
+            }
+        }
+        Collections.sort(keys);
+        return keys;
     }
 }

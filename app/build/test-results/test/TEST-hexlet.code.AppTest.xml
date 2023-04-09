@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="hexlet.code.AppTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-04-09T04:47:51" hostname="WIN-07UG22V4QVH" time="0.381">
+  <properties/>
+  <testcase name="Test if 1st file doesn't exist" classname="hexlet.code.AppTest" time="0.026"/>
+  <testcase name="Test with 2 correct files" classname="hexlet.code.AppTest" time="0.351"/>
+  <testcase name="Test if 1 file is empty" classname="hexlet.code.AppTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
