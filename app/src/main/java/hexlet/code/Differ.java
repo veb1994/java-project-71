@@ -14,7 +14,6 @@ import java.util.Collections;
 
 public class Differ {
     public static String generate(String filepath1, String filepath2, String format) throws Exception {
-        StringBuilder result;
         Path path1 = Paths.get(filepath1);
         Path path2 = Paths.get(filepath2);
         if (!Files.exists(path1)) {
@@ -23,7 +22,6 @@ public class Differ {
         if (!Files.exists(path2)) {
             throw new Exception("No such file: " + filepath2);
         }
-
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> fileMap1 = new HashMap<>();
         Map<String, Object> fileMap2 = new HashMap<>();
@@ -33,6 +31,10 @@ public class Differ {
         if (!(Files.readString(path2).equals(""))) {
             fileMap2 = objectMapper.readValue(new File(filepath2), new TypeReference<>() { });
         }
+        return compare(fileMap1, fileMap2);
+    }
+
+    public static String compare(Map<String, Object> fileMap1, Map<String, Object> fileMap2) {
         List<String> keys = new ArrayList<>(fileMap1.keySet());
         for (String key: fileMap2.keySet()) {
             if (!keys.contains(key)) {
@@ -40,7 +42,7 @@ public class Differ {
             }
         }
         Collections.sort(keys);
-        result = new StringBuilder("{\n");
+        StringBuilder result = new StringBuilder("{\n");
         for (String key: keys) {
             if (fileMap1.containsKey(key) && fileMap2.containsKey(key)) {
                 if (fileMap1.get(key).equals(fileMap2.get(key))) {
