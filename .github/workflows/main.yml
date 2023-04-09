@@ -20,9 +20,9 @@ jobs:
       - name: Create jacoco report
         run: make -C app report
       - name: Set jacoco.xml path for code climate
-        run: JACOCO_SOURCE_PATH=src/main/java ./cc-test-reporter format-coverage ./build/reports/jacoco/test/jacocoTestReport.xml --input-type jacoco
+        run: JACOCO_SOURCE_PATH=src/main/java ./app/cc-test-reporter format-coverage ./build/reports/jacoco/test/jacocoTestReport.xml --input-type jacoco
       - name: Upload code climate report
-        run: ./cc-test-reporter upload-coverage -r $CC_TEST_REPORTER_ID
+        run: ./app/cc-test-reporter upload-coverage -r $CC_TEST_REPORTER_ID
       
       #- name: Make code coverage
         #uses: paambaati/codeclimate-action@v3.0.0
