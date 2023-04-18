@@ -47,7 +47,7 @@ public class Parser {
     private static String compare(Map<String, Object> fileMap1, Map<String, Object> fileMap2, String format)
             throws Exception {
         StringBuilder result = new StringBuilder("{\n");
-        String comparisonResult = "";
+        String comparisonResult;
         for (String key: mergeKeySet(fileMap1, fileMap2)) {
             Object value1 = fileMap1.get(key);
             Object value2 = fileMap2.get(key);
