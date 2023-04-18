@@ -13,7 +13,8 @@ import java.util.HashMap;
 import java.util.Collections;
 
 public class Parser {
-    public static String parse(String filepath1, String filepath2, Path path1, Path path2) throws Exception {
+    public static String parse(String filepath1, String filepath2, Path path1, Path path2, String format)
+            throws Exception {
         ObjectMapper objectMapper;
         if (filepath1.toLowerCase().endsWith("json")) {
             objectMapper = new ObjectMapper();
@@ -30,23 +31,40 @@ public class Parser {
         if (!(Files.readString(path2).equals(""))) {
             fileMap2 = objectMapper.readValue(new File(filepath2), new TypeReference<>() { });
         }
-        return compare(fileMap1, fileMap2);
+        fixNull(fileMap1);
+        fixNull(fileMap2);
+        return compare(fileMap1, fileMap2, format);
     }
 
-    private static String compare(Map<String, Object> fileMap1, Map<String, Object> fileMap2) {
+    private static void fixNull(Map<String, Object> fileMap) {
+        for (String key: fileMap.keySet()) {
+            if (fileMap.get(key) == null) {
+                fileMap.put(key, "null");
+            }
+        }
+    }
+
+    private static String compare(Map<String, Object> fileMap1, Map<String, Object> fileMap2, String format)
+            throws Exception {
         StringBuilder result = new StringBuilder("{\n");
+        String comparisonResult = "";
         for (String key: mergeKeySet(fileMap1, fileMap2)) {
+            Object value1 = fileMap1.get(key);
+            Object value2 = fileMap2.get(key);
             if (fileMap1.containsKey(key) && fileMap2.containsKey(key)) {
-                if (fileMap1.get(key).equals(fileMap2.get(key))) {
-                    result.append("    ").append(key).append(": ").append(fileMap1.get(key)).append("\n");
+                if (value1.equals(value2)) {
+                    comparisonResult = "Equal";
+                    result.append(Formatter.format(key, value1, value2, comparisonResult, format));
                 } else {
-                    result.append("  - ").append(key).append(": ").append(fileMap1.get(key)).append("\n");
-                    result.append("  + ").append(key).append(": ").append(fileMap2.get(key)).append("\n");
+                    comparisonResult = "Change";
+                    result.append(Formatter.format(key, value1, value2, comparisonResult, format));
                 }
             } else if (fileMap1.containsKey(key)) {
-                result.append("  - ").append(key).append(": ").append(fileMap1.get(key)).append("\n");
+                comparisonResult = "Delete";
+                result.append(Formatter.format(key, value1, value2, comparisonResult, format));
             } else {
-                result.append("  + ").append(key).append(": ").append(fileMap2.get(key)).append("\n");
+                comparisonResult = "Add";
+                result.append(Formatter.format(key, value1, value2, comparisonResult, format));
             }
         }
         result.append("}");

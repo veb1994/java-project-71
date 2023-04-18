@@ -14,6 +14,6 @@ public class Differ {
         if (!Files.exists(path2)) {
             throw new Exception("No such file: " + filepath2);
         }
-        return Parser.parse(filepath1, filepath2, path1, path2);
+        return Parser.parse(filepath1, filepath2, path1, path2, format);
     }
 }
