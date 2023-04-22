@@ -51,6 +51,22 @@ public class AppTest {
                   + setting3: none
                 }""";
 
+    String expectedPlain =
+                """
+                Property 'chars2' was updated. From [complex value] to false
+                Property 'checked' was updated. From false to true
+                Property 'default' was updated. From null to [complex value]
+                Property 'id' was updated. From 45 to null
+                Property 'key1' was removed
+                Property 'key2' was added with value: 'value2'
+                Property 'numbers2' was updated. From [complex value] to [complex value]
+                Property 'numbers3' was removed
+                Property 'numbers4' was added with value: [complex value]
+                Property 'obj1' was added with value: [complex value]
+                Property 'setting1' was updated. From 'Some value' to 'Another value'
+                Property 'setting2' was updated. From 200 to 300
+                Property 'setting3' was updated. From true to 'none'""";
+
     @Test
     @DisplayName("JSON Test with 2 correct files")
     public void testDifferJSON() throws Exception {
@@ -109,5 +125,15 @@ public class AppTest {
         String format = "stylish";
         String actual = Differ.generate(filepath1, filepath2, format);
         assertEquals(expectedOneFileEmpty, actual);
+    }
+
+    @Test
+    @DisplayName("JSON Test with 2 correct files and Plain formatter")
+    public void testDifferPlain() throws Exception {
+        String filepath1 = "src/test/resources/file1.json";
+        String filepath2 = "src/test/resources/file2.json";
+        String format = "plain";
+        String actual = Differ.generate(filepath1, filepath2, format);
+        assertEquals(expectedPlain, actual);
     }
 }

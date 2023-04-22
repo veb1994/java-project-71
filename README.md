@@ -6,4 +6,5 @@
 
 Demo JSON: https://asciinema.org/a/573171 <br />
 Demo YAML: https://asciinema.org/a/575597 <br />
-Demo formatter: https://asciinema.org/a/wOzJn6zyZiZtkZOCWko9Oos5x
+Demo formatter: https://asciinema.org/a/wOzJn6zyZiZtkZOCWko9Oos5x <br />
+Demo plain formatter: https://asciinema.org/a/579318

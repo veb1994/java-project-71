@@ -5,16 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Collections;
 
 public class Parser {
-    public static String parse(String filepath1, String filepath2, Path path1, Path path2, String format)
-            throws Exception {
+    public static Map<String, Object> parse(String filepath1) throws Exception {
         ObjectMapper objectMapper;
         if (filepath1.toLowerCase().endsWith("json")) {
             objectMapper = new ObjectMapper();
@@ -23,17 +19,20 @@ public class Parser {
         } else {
             throw new Exception("Unknown file format");
         }
-        Map<String, Object> fileMap1 = new HashMap<>();
-        Map<String, Object> fileMap2 = new HashMap<>();
-        if (!(Files.readString(path1).equals(""))) {
-            fileMap1 = objectMapper.readValue(new File(filepath1), new TypeReference<>() { });
+        Map<String, Object> fileMap = new HashMap<>();
+        //Map<String, Object> fileMap2 = new HashMap<>();
+        if (!(Files.readString(Paths.get(filepath1)).equals(""))) {
+            fileMap = objectMapper.readValue(new File(filepath1), new TypeReference<>() { });
         }
-        if (!(Files.readString(path2).equals(""))) {
+        /*if (!(Files.readString(Paths.get(filepath2)).equals(""))) {
             fileMap2 = objectMapper.readValue(new File(filepath2), new TypeReference<>() { });
-        }
-        fixNull(fileMap1);
-        fixNull(fileMap2);
-        return compare(fileMap1, fileMap2, format);
+        }*/
+        fixNull(fileMap);
+        //fixNull(fileMap2);
+        Map<String, Object> parseResult = new HashMap<>();
+        parseResult.put("fileMap", fileMap);
+        //parseResult.put("fileMap2", fileMap2);
+        return fileMap;
     }
 
     private static void fixNull(Map<String, Object> fileMap) {
@@ -44,7 +43,7 @@ public class Parser {
         }
     }
 
-    private static String compare(Map<String, Object> fileMap1, Map<String, Object> fileMap2, String format)
+    /*private static String compare(Map<String, Object> fileMap1, Map<String, Object> fileMap2, String format)
             throws Exception {
         StringBuilder result = new StringBuilder("{\n");
         String comparisonResult;
@@ -79,5 +78,5 @@ public class Parser {
         }
         Collections.sort(keys);
         return keys;
-    }
+    }*/
 }
