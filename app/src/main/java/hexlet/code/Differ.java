@@ -27,6 +27,10 @@ public class Differ {
         //format
         return Formatter.format(compareResult, format);
     }
+
+    public static String generate(String filepath1, String filepath2) throws Exception {
+        return generate(filepath1, filepath2, "stylish");
+    }
     private static LinkedHashMap<String, HashMap<String, Object>> compare(Map<String, Object> fileMap1,
                                                                           Map<String, Object> fileMap2) {
         String keyCompareResult;
