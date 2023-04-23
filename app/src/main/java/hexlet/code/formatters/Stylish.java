@@ -10,7 +10,7 @@ public class Stylish {
         for (String key: compareResult.keySet()) {
             Map<String, Object> resultMap = compareResult.get(key);
             switch (resultMap.get("keyCompareResult").toString()) {
-                case ("Equal") -> result.append(" ".repeat(4)).append(key).append(": ")
+                case ("Equal") -> result.append("    ").append(key).append(": ")
                         .append(resultMap.get("value1")).append("\n");
                 case ("Change") -> {
                     result.append("  - ").append(key).append(": ").append(resultMap.get("value1")).append("\n");

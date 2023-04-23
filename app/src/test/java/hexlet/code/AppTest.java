@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AppTest {
-    String expectedTwoCorrectFiles =
+    private final String expectedTwoCorrectFiles =
                 """
                 {
                     chars1: [a, b, c]
@@ -33,7 +33,7 @@ public class AppTest {
                   - setting3: true
                   + setting3: none
                 }""";
-    String expectedOneFileEmpty =
+    private final String expectedOneFileEmpty =
                 """
                 {
                   + chars1: [a, b, c]
@@ -51,7 +51,7 @@ public class AppTest {
                   + setting3: none
                 }""";
 
-    String expectedPlain =
+    private final String expectedPlain =
                 """
                 Property 'chars2' was updated. From [complex value] to false
                 Property 'checked' was updated. From false to true
@@ -67,7 +67,7 @@ public class AppTest {
                 Property 'setting2' was updated. From 200 to 300
                 Property 'setting3' was updated. From true to 'none'""";
 
-    String expectedJson = "{\"chars1\":\"[a, b, c]\",\"- chars2\":\"[d, e, f]\",\""
+    private final String expectedJson = "{\"chars1\":\"[a, b, c]\",\"- chars2\":\"[d, e, f]\",\""
             + "+ chars2\":\"false\",\"- checked\":\"false\",\"+ checked\":\"true\",\"- default\":\"null\",\""
             + "+ default\":\"[value1, value2]\",\"- id\":\"45\",\"+ id\":\"null\",\"- key1\":\"value1\",\""
             + "+ key2\":\"value2\",\"numbers1\":\"[1, 2, 3, 4]\",\"- numbers2\":\"[2, 3, 4, 5]\",\""
