@@ -12,26 +12,20 @@ import java.util.HashMap;
 public class Parser {
     public static Map<String, Object> parse(String filepath1) throws Exception {
         ObjectMapper objectMapper;
-        if (filepath1.toLowerCase().endsWith("json")) {
+        if (filepath1.toLowerCase().endsWith(".json")) {
             objectMapper = new ObjectMapper();
-        } else if (filepath1.toLowerCase().endsWith("yml")) {
+        } else if (filepath1.toLowerCase().endsWith(".yml")) {
             objectMapper = new YAMLMapper();
         } else {
             throw new Exception("Unknown file format");
         }
         Map<String, Object> fileMap = new HashMap<>();
-        //Map<String, Object> fileMap2 = new HashMap<>();
         if (!(Files.readString(Paths.get(filepath1)).equals(""))) {
             fileMap = objectMapper.readValue(new File(filepath1), new TypeReference<>() { });
         }
-        /*if (!(Files.readString(Paths.get(filepath2)).equals(""))) {
-            fileMap2 = objectMapper.readValue(new File(filepath2), new TypeReference<>() { });
-        }*/
         fixNull(fileMap);
-        //fixNull(fileMap2);
         Map<String, Object> parseResult = new HashMap<>();
         parseResult.put("fileMap", fileMap);
-        //parseResult.put("fileMap2", fileMap2);
         return fileMap;
     }
 
@@ -42,41 +36,4 @@ public class Parser {
             }
         }
     }
-
-    /*private static String compare(Map<String, Object> fileMap1, Map<String, Object> fileMap2, String format)
-            throws Exception {
-        StringBuilder result = new StringBuilder("{\n");
-        String comparisonResult;
-        for (String key: mergeKeySet(fileMap1, fileMap2)) {
-            Object value1 = fileMap1.get(key);
-            Object value2 = fileMap2.get(key);
-            if (fileMap1.containsKey(key) && fileMap2.containsKey(key)) {
-                if (value1.equals(value2)) {
-                    comparisonResult = "Equal";
-                    result.append(Formatter.format(key, value1, value2, comparisonResult, format));
-                } else {
-                    comparisonResult = "Change";
-                    result.append(Formatter.format(key, value1, value2, comparisonResult, format));
-                }
-            } else if (fileMap1.containsKey(key)) {
-                comparisonResult = "Delete";
-                result.append(Formatter.format(key, value1, value2, comparisonResult, format));
-            } else {
-                comparisonResult = "Add";
-                result.append(Formatter.format(key, value1, value2, comparisonResult, format));
-            }
-        }
-        result.append("}");
-        return result.toString();
-    }
-    private static List<String> mergeKeySet(Map<String, Object> fileMap1, Map<String, Object> fileMap2) {
-        List<String> keys = new ArrayList<>(fileMap1.keySet());
-        for (String key: fileMap2.keySet()) {
-            if (!keys.contains(key)) {
-                keys.add(key);
-            }
-        }
-        Collections.sort(keys);
-        return keys;
-    }*/
 }

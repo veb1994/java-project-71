@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import hexlet.code.formatters.Json;
 import hexlet.code.formatters.Plain;
 import hexlet.code.formatters.Stylish;
 
@@ -13,6 +14,8 @@ public class Formatter {
             return Stylish.formatStylish(compareResult);
         } else if (format.equals("plain")) {
             return Plain.formatPlain(compareResult);
+        } else if (format.equals("json")) {
+            return Json.formatJson(compareResult);
         }
         throw new Exception("Invalid format: " + format);
     }
